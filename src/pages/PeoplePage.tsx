@@ -72,7 +72,11 @@ export const PeoplePage = () => {
               </div>
 
               <div className="column">
-                <PeopleTable people={filteredPeople} selectedSlug={slug} />
+                <PeopleTable
+                  people={filteredPeople}
+                  allPeople={people}
+                  selectedSlug={slug}
+                />
               </div>
             </div>
           )}

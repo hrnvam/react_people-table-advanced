@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Person } from '../types/Person';
 import { useSearchParams } from 'react-router-dom';
 import { getSearchWith } from '../utils/searchHelper';
+import { SearchLink } from './SearchLink';
 
 type Props = {
   people: Person[];
@@ -91,7 +92,7 @@ export const PeopleFilters: React.FC<Props> = ({ people, onFiltered }) => {
           const value = s === 'All' ? null : s.charAt(0).toLowerCase();
 
           return (
-            <a
+            <SearchLink
               key={s}
               className={
                 searchParams.get('sex') === value ||
@@ -99,10 +100,10 @@ export const PeopleFilters: React.FC<Props> = ({ people, onFiltered }) => {
                   ? 'is-active'
                   : ''
               }
-              href={`#/people?${getSearchWith(searchParams, { sex: value })}`}
+              params={{ sex: value }}
             >
               {s}
-            </a>
+            </SearchLink>
           );
         })}
       </p>

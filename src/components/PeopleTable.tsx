@@ -7,10 +7,15 @@ import { getSearchWith } from '../utils/searchHelper';
 
 type Props = {
   people: Person[];
+  allPeople: Person[];
   selectedSlug?: string;
 };
 
-export const PeopleTable: React.FC<Props> = ({ people, selectedSlug }) => {
+export const PeopleTable: React.FC<Props> = ({
+  people,
+  allPeople,
+  selectedSlug,
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const sort = searchParams.get('sort') as keyof Person | null;
   const order = searchParams.get('order');
@@ -103,7 +108,7 @@ export const PeopleTable: React.FC<Props> = ({ people, selectedSlug }) => {
                 })}
               >
                 <td>
-                  <PersonLink person={person} people={people} />
+                  <PersonLink person={person} people={allPeople} />
                 </td>
                 <td>{person.sex}</td>
                 <td>{person.born}</td>
@@ -112,7 +117,7 @@ export const PeopleTable: React.FC<Props> = ({ people, selectedSlug }) => {
                   {person.motherName ? (
                     <PersonLink
                       personName={person.motherName}
-                      people={people}
+                      people={allPeople}
                     />
                   ) : (
                     '-'
@@ -122,7 +127,7 @@ export const PeopleTable: React.FC<Props> = ({ people, selectedSlug }) => {
                   {person.fatherName ? (
                     <PersonLink
                       personName={person.fatherName}
-                      people={people}
+                      people={allPeople}
                     />
                   ) : (
                     '-'
