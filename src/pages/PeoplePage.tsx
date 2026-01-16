@@ -1,6 +1,6 @@
 import { PeopleFilters } from '../components/PeopleFilters';
 import { PeopleTable } from '../components/PeopleTable';
-
+import { Loader } from '../components/Loader/Loader';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -27,26 +27,55 @@ export const PeoplePage = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  if (loading) {
+    return (
+      <div className="block">
+        <div className="box table-container">
+          <Loader />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="block">
+        <div className="box table-container">
+          <p data-cy="peopleLoadingError" className="has-text-danger">
+            Something went wrong
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (people.length === 0) {
+    return (
+      <div className="block">
+        <div className="box table-container">
+          <p data-cy="noPeopleMessage">There are no people on the server</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="section">
       <div className="container">
         <h1 className="title">People Page</h1>
 
         <div className="block">
-          <div className="columns is-desktop is-flex-direction-row-reverse">
-            <div className="column is-7-tablet is-narrow-desktop">
-              <PeopleFilters people={people} onFiltered={setFilteredPeople} />
-            </div>
+          {!loading && !error && people.length > 0 && (
+            <div className="columns is-desktop is-flex-direction-row-reverse">
+              <div className="column is-7-tablet is-narrow-desktop">
+                <PeopleFilters people={people} onFiltered={setFilteredPeople} />
+              </div>
 
-            <div className="column">
-              <PeopleTable
-                people={filteredPeople}
-                selectedSlug={slug}
-                loading={loading}
-                error={error}
-              />
+              <div className="column">
+                <PeopleTable people={filteredPeople} selectedSlug={slug} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

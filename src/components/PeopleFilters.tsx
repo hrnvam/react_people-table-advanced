@@ -77,6 +77,11 @@ export const PeopleFilters: React.FC<Props> = ({ people, onFiltered }) => {
     onFiltered?.(filteredPeople);
   }, [filteredPeople, onFiltered]);
 
+  useEffect(() => {
+    setQuery(searchParams.get('query') || '');
+    setCentury(searchParams.getAll('centuries'));
+  }, [searchParams]);
+
   return (
     <nav className="panel">
       <p className="panel-heading">Filters</p>
@@ -153,7 +158,6 @@ export const PeopleFilters: React.FC<Props> = ({ people, onFiltered }) => {
       <div className="panel-block">
         <a
           className="button is-link is-outlined is-fullwidth"
-          href="#/people"
           onClick={handleReset}
         >
           Reset all filters

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Person } from '../types/Person';
 import classNames from 'classnames';
 
@@ -10,6 +10,7 @@ interface Props {
 
 export const PersonLink: React.FC<Props> = ({ person, personName, people }) => {
   const currentPerson = person || people.find(p => p.name === personName);
+  const [searchParams] = useSearchParams();
 
   if (!currentPerson) {
     return <span>{personName}</span>;
@@ -17,7 +18,10 @@ export const PersonLink: React.FC<Props> = ({ person, personName, people }) => {
 
   return (
     <Link
-      to={`/people/${currentPerson.slug}`}
+      to={{
+        pathname: `/people/${currentPerson.slug}`,
+        search: searchParams.toString(),
+      }}
       className={classNames({
         'has-text-danger': currentPerson.sex === 'f',
       })}
